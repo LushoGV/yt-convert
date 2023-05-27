@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BiLoaderAlt } from "react-icons/bi";
+import { IoMdClose } from "react-icons/io";
 import axios from "axios";
 
 interface iDownload {
@@ -34,6 +35,7 @@ const Home = () => {
     setIsLoading(true);
     setError(false);
     setDownload(null);
+    
     if (inputContent && inputContent.trim().length > 0) {
       const res = await axios.post("/api/convert", {
         id: inputContent.trim(),
@@ -48,6 +50,7 @@ const Home = () => {
           : setError(ERRORS.DEFAULT);
       }
     } else setError(ERRORS.NULL);
+    
     setIsLoading(false);
   };
 
@@ -64,24 +67,32 @@ const Home = () => {
           24 hs. Cualquier cosa mandame por WhatsApp
         </span>
         <div className="flex flex-col lg:flex-row w-full items-center gap-x-2 mt-4 lg:mt-2">
-          <input
-            type="text"
-            name=""
-            id=""
-            value={inputContent}
-            onChange={(e) => {
-              setInputContent(e.target.value), setError(false);
-            }}
-            placeholder="Ingrese URL"
-            className="p-4 mt-4 lg:my-4 rounded-sm w-full border-[1px] border-slate-500 focus:border-red-600 outline-0 bg-black text-white"
-          />
-          <button
-            className="bg-red-600 py-4 px-8 lg:px-4 my-4 rounded-sm text-white font-semibold hover:brightness-110"
-            onClick={getVideo}
-          >
-            Buscar
-          </button>
-        </div>
+            <div className="flex items-center w-full relative">
+              <input
+                type="text"
+                name=""
+                id=""
+                value={inputContent}
+                onChange={(e) => {
+                  setInputContent(e.target.value), setError(false);
+                }}
+                placeholder="Ingrese URL"
+                className="p-4 mt-4 lg:my-4 rounded-sm w-full border-[1px] border-slate-500 focus:border-red-600 outline-0 bg-black text-white pr-14"
+              />
+              <button
+                className="absolute text-white right-4 text-2xl mt-4 lg:mt-0 hover:text-red-600"
+                onClick={() => setInputContent("")}
+              >
+                <IoMdClose />
+              </button>
+            </div>
+            <button
+              className="bg-red-600 py-4 px-8 lg:px-4 my-4 rounded-sm text-white font-semibold hover:brightness-110"
+              onClick={getVideo}
+            >
+              Buscar
+            </button>
+          </div>
         <section className="flex flex-col items-center">
           {isLoading && (
             <h1 className="text-white mt-4 lg:mt-3 text-4xl">
